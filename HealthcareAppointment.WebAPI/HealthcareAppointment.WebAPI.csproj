@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HealthcareAppointment.Business\HealthcareAppointment.Business.csproj" />
     <ProjectReference Include="..\HealthcareAppointment.Data\HealthcareAppointment.Data.csproj" />
   </ItemGroup>
 

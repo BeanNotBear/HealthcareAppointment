@@ -1,3 +1,4 @@
+using HealthcareAppointment.Business.Mappings;
 using HealthcareAppointment.Data.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,9 @@ builder.Services.AddDbContext<HealthcareAppointmentDbContext>(options =>
 {
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+// Configure automapper
+builder.Services.AddAutoMapper(typeof(ProfileMapping));
 
 var app = builder.Build();
 

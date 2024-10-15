@@ -5,17 +5,19 @@
 		public ICollection<T> Items { get; }
 		public int PageNumber { get; }
 		public int PageSize { get; }
-		public int TotalPage { get; }
-		public bool IsHasNextPage => PageNumber < TotalPage;
+		public int TotalPages { get; }
+		public int TotalRecords { get; }
+		public bool IsHasNextPage => PageNumber < TotalPages;
 
 		public bool IsHasPreviousPage => PageNumber > 1;
 
-		public PaginationList(ICollection<T> items, int pageNumber, int pageSize, int totalPage)
+		public PaginationList(ICollection<T> items, int pageNumber, int pageSize, int totalPages, int totalRecords)
 		{
 			Items = items;
 			PageNumber = pageNumber;
 			PageSize = pageSize;
-			TotalPage = totalPage;
+			TotalPages = totalPages;
+			TotalRecords = totalRecords;
 		}
 	}
 }
