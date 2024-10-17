@@ -49,7 +49,8 @@ namespace HealthcareAppointment.Data.Data
 
 				x.Property(x => x.Specialization)
 					.IsRequired(true)
-					.HasColumnType("nvarchar");
+					.HasColumnType("nvarchar")
+					.HasMaxLength(255);
 
 				x.HasMany(x => x.PatientAppointments)
 					.WithOne(x => x.Patient)
@@ -76,7 +77,7 @@ namespace HealthcareAppointment.Data.Data
 
 				x.Property(x => x.Date)
 					.IsRequired(true)
-					.HasColumnType("date");
+					.HasColumnType("datetime");
 
 				x.Property(x => x.Status)
 					.IsRequired(true)

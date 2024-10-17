@@ -1,4 +1,12 @@
+using HealthcareAppointment.Business.Mappings;
+using HealthcareAppointment.Business.Services.AppointmentService;
+using HealthcareAppointment.Business.Services.DoctorService;
+using HealthcareAppointment.Business.Services.PatientService;
 using HealthcareAppointment.Data.Data;
+using HealthcareAppointment.Data.Repositories.AppointmentRepository;
+using HealthcareAppointment.Data.Repositories.BaseRepository;
+using HealthcareAppointment.Data.Repositories.DoctorRepository;
+using HealthcareAppointment.Data.Repositories.PatientRepository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +23,23 @@ builder.Services.AddDbContext<HealthcareAppointmentDbContext>(options =>
 {
 	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+// Configure automapper
+builder.Services.AddAutoMapper(typeof(ProfileMapping));
+builder.Services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
+
+// DI for patient
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IPatientService, PatientService>();
+
+// DI for doctor
+builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+builder.Services.AddScoped<IDoctorService, DoctorService>();
+
+// DI for appointment
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+
 
 var app = builder.Build();
 
