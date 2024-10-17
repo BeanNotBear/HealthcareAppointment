@@ -1,6 +1,6 @@
 ﻿using HealthcareAppointment.Data.Data;
 using HealthcareAppointment.Data.Dtos;
-using HealthcareAppointment.Data.Specifications.Basespecification;
+using HealthcareAppointment.Data.Specifications;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using System;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace HealthcareAppointment.Data.Repositories.BaseRepository
 {
-	public class BaseRepository<T, P> : IBaseRepository<T, P> where T : class
+    public class BaseRepository<T, P> : IBaseRepository<T, P> where T : class
 	{
 
 		private readonly HealthcareAppointmentDbContext _context;
@@ -41,11 +41,9 @@ namespace HealthcareAppointment.Data.Repositories.BaseRepository
 			return false;
 		}
 
-		public async Task<T?> GetById(IBaseSpecification<T> specification)
+		public async Task<T?> GetById(P id)
 		{
-			var query = _context.Set<T>().AsQueryable();
-			ApplyInclude(query, specification.Includes);
-			var entity = await query.FirstOrDefaultAsync(specification.Filters);
+			var entity = await _context.Set<T>().FindAsync(id);
 			return entity;
 		}
 

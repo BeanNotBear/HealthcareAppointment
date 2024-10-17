@@ -4,16 +4,18 @@ using HealthcareAppointment.Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace HealthcareAppointment.Data.Data.Migrations
+namespace HealthcareAppointment.Data.Data.migrations
 {
     [DbContext(typeof(HealthcareAppointmentDbContext))]
-    partial class HealthcareAppointmentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241016030650_Edit_Length_Of_Col")]
+    partial class Edit_Length_Of_Col
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +31,7 @@ namespace HealthcareAppointment.Data.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime");
+                        .HasColumnType("date");
 
                     b.Property<Guid>("DoctorId")
                         .HasColumnType("uniqueidentifier");
@@ -58,7 +60,7 @@ namespace HealthcareAppointment.Data.Data.Migrations
                     b.Property<DateTime>("DateOfBirth")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("date")
-                        .HasDefaultValue(new DateTime(2024, 10, 17, 10, 26, 43, 569, DateTimeKind.Local).AddTicks(5763));
+                        .HasDefaultValue(new DateTime(2024, 10, 16, 10, 6, 50, 133, DateTimeKind.Local).AddTicks(8831));
 
                     b.Property<string>("Email")
                         .IsRequired()
