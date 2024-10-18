@@ -1,14 +1,19 @@
 ﻿using AutoMapper;
+using HealthcareAppointment.Business.Services.GenerateToken;
 using HealthcareAppointment.Data.Dtos;
+using HealthcareAppointment.Data.Dtos.Authentication;
 using HealthcareAppointment.Data.Dtos.Doctor;
 using HealthcareAppointment.Data.Dtos.Patient;
 using HealthcareAppointment.Data.Repositories.DoctorRepository;
 using HealthcareAppointment.Data.Specifications;
 using HealthcareAppointment.Models.Entities;
 using HealthcareAppointment.Models.Enum;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,11 +23,13 @@ namespace HealthcareAppointment.Business.Services.DoctorService
 	{
 		private readonly IDoctorRepository doctorRepository;
 		private readonly IMapper mapper;
+		private readonly IConfiguration configuration;
 
-		public DoctorService(IDoctorRepository doctorRepository, IMapper mapper)
+		public DoctorService(IDoctorRepository doctorRepository, IMapper mapper, IConfiguration configuration)
 		{
 			this.doctorRepository = doctorRepository;
 			this.mapper = mapper;
+			this.configuration = configuration;
 		}
 
 		public async Task<DoctorDto> Create(AddDoctorRequestDto addDoctorRequestDto)

@@ -1,5 +1,7 @@
 ﻿using HealthcareAppointment.Business.Services.DoctorService;
+using HealthcareAppointment.Data.Dtos.Authentication;
 using HealthcareAppointment.Data.Dtos.Doctor;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
