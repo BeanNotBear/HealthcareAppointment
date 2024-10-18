@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HealthcareAppointment.Business.Exceptions;
 using HealthcareAppointment.Data.Dtos;
 using HealthcareAppointment.Data.Dtos.Patient;
 using HealthcareAppointment.Data.Repositories.PatientRepository;
@@ -31,12 +32,20 @@ namespace HealthcareAppointment.Business.Services.PatientService
 		public async Task<bool> Delete(Guid id)
 		{
 			var isDeleted = await patientRepository.Delete(id);
+			if (!isDeleted)
+			{
+				throw new NotFoundException($"Can not found patient with id: {id}");
+			}
 			return isDeleted;
 		}
 
 		public async Task<PatientDto> GetById(Guid id)
 		{
-			var patientDomain = await patientRepository.GetById(id);
+			var patientDomain = await patientRepository.GetById(x => x.Role == Role.Patient && x.Id == id);
+			if(patientDomain == null)
+			{
+				throw new NotFoundException($"Can not found patient with id: {id}");
+			}
 			var patientDto = mapper.Map<PatientDto>(patientDomain);
 			return patientDto;
 		}
@@ -70,8 +79,12 @@ namespace HealthcareAppointment.Business.Services.PatientService
 		public async Task<PatientDto> Update(Guid id, UpdatePatientRequestDto updatePatientRequest)
 		{
 			var patientDomain = mapper.Map<User>(updatePatientRequest);
+			if(patientDomain == null)
+			{
+				throw new NotFoundException($"Can not found patient with id: {id}");
+			}
 			patientDomain.Id = id;
-			var updatedPatient = await patientRepository.Update(id, patientDomain);
+			var updatedPatient = await patientRepository.Update(x => x.Id == id && x.Role == Role.Patient, patientDomain);
 			var patientDto = mapper.Map<PatientDto>(updatedPatient);
 			return patientDto;
 		}

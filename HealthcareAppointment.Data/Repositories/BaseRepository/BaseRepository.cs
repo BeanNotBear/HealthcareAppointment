@@ -41,9 +41,10 @@ namespace HealthcareAppointment.Data.Repositories.BaseRepository
 			return false;
 		}
 
-		public async Task<T?> GetById(P id)
+		public async Task<T?> GetById(Expression<Func<T, bool>> Filter)
 		{
-			var entity = await _context.Set<T>().FindAsync(id);
+			var query = _context.Set<T>().AsQueryable();
+			var entity = await query.FirstOrDefaultAsync(Filter);
 			return entity;
 		}
 
@@ -82,9 +83,9 @@ namespace HealthcareAppointment.Data.Repositories.BaseRepository
 			return result;
 		}
 
-		public async Task<T?> Update(P id, T item)
+		public async Task<T?> Update(Expression<Func<T, bool>> Filter, T item)
 		{
-			var existedEntity = await _context.Set<T>().FindAsync(id);
+			var existedEntity = await _context.Set<T>().Where(Filter).FirstOrDefaultAsync();
 			if (existedEntity != null)
 			{
 				_context.Entry(existedEntity).CurrentValues.SetValues(item);

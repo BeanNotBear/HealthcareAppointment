@@ -46,7 +46,7 @@ namespace HealthcareAppointment.Business.Services.AppointmentService
 
 		public async Task<AppointmentDto> GetById(Guid id)
 		{
-			var appointmentDomain = await appointmentRepository.GetById(id);
+			var appointmentDomain = await appointmentRepository.GetById(x => x.Id == id);
 			var appointmentDto = mapper.Map<AppointmentDto>(appointmentDomain);
 			return appointmentDto;
 		}
@@ -102,7 +102,7 @@ namespace HealthcareAppointment.Business.Services.AppointmentService
 		{
 			var appointmentDomain = mapper.Map<Appointment>(updateAppointmentRequestDto);
 			appointmentDomain.Id = id;
-			var updatedAppointment = await appointmentRepository.Update(id, appointmentDomain);
+			var updatedAppointment = await appointmentRepository.Update(x => x.Id == id, appointmentDomain);
 			var appointmentDto = mapper.Map<AppointmentDto>(updatedAppointment);
 			return appointmentDto;
 		}

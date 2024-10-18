@@ -54,7 +54,7 @@ namespace HealthcareAppointment.Business.Services.DoctorService
 
 		public async Task<DoctorDto> GetById(Guid id)
 		{
-			var doctorDomain = await doctorRepository.GetById(id);
+			var doctorDomain = await doctorRepository.GetById(x => x.Role == Role.Doctor && x.Id == id);
 			if (doctorDomain == null)
 			{
 				throw new NotFoundException($"Can not found doctor with id: {id}");
@@ -96,7 +96,7 @@ namespace HealthcareAppointment.Business.Services.DoctorService
 				throw new NotFoundException($"Can not found doctor with id: {id}");
 			}
 			doctorDomain.Id = id;
-			var updatedDoctor = await doctorRepository.Update(id, doctorDomain);
+			var updatedDoctor = await doctorRepository.Update(x => x.Role == Role.Doctor && x.Id == id, doctorDomain);
 			var doctorDto = mapper.Map<DoctorDto>(updatedDoctor);
 			return doctorDto;
 		}

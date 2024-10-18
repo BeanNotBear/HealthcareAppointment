@@ -19,6 +19,7 @@ namespace HealthcareAppointment.WebAPI.Controllers
 		}
 
 		[HttpGet]
+		[Authorize]
 		public async Task<IActionResult> GetItems([FromQuery] DoctorParameter doctorParameter)
 		{
 			var doctorDtos = await doctorService.GetItems(doctorParameter);
@@ -27,6 +28,7 @@ namespace HealthcareAppointment.WebAPI.Controllers
 
 		[HttpGet]
 		[Route("{id:Guid}")]
+		[Authorize]
 		public async Task<IActionResult> GetById(Guid id)
 		{
 			var doctorDto = await doctorService.GetById(id);
@@ -34,6 +36,7 @@ namespace HealthcareAppointment.WebAPI.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public async Task<IActionResult> Create([FromBody] AddDoctorRequestDto addDoctorRequestDto)
 		{
 			var doctorDto = await doctorService.Create(addDoctorRequestDto);
@@ -42,6 +45,7 @@ namespace HealthcareAppointment.WebAPI.Controllers
 
 		[HttpPut]
 		[Route("{id:Guid}")]
+		[Authorize]
 		public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateDoctorRequestDto updateDoctorRequestDto)
 		{
 			var doctorDto = await doctorService.Update(id, updateDoctorRequestDto);
@@ -50,6 +54,7 @@ namespace HealthcareAppointment.WebAPI.Controllers
 
 		[HttpDelete]
 		[Route("{id:Guid}")]
+		[Authorize]
 		public async Task<IActionResult> Delete([FromRoute] Guid id)
 		{
 			var isDeleted = await doctorService.Delete(id);

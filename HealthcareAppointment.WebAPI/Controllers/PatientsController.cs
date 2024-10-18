@@ -1,5 +1,6 @@
 ﻿using HealthcareAppointment.Business.Services.PatientService;
 using HealthcareAppointment.Data.Dtos.Patient;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace HealthcareAppointment.WebAPI.Controllers
 		}
 
 		[HttpGet]
+		[Authorize]
 		public async Task<IActionResult> GetItems([FromQuery] PatientParameter patientParameter)
 		{
 			var items = await patientService.GetItems(patientParameter);
@@ -25,6 +27,7 @@ namespace HealthcareAppointment.WebAPI.Controllers
 
 		[HttpGet]
 		[Route("{id:Guid}")]
+		[Authorize]
 		public async Task<IActionResult> GetById([FromRoute] Guid id)
 		{
 			var patientDto = await patientService.GetById(id);
@@ -32,6 +35,7 @@ namespace HealthcareAppointment.WebAPI.Controllers
 		}
 
 		[HttpPost]
+		[Authorize]
 		public async Task<IActionResult> Create([FromBody] AddPatientRequestDto addPatientRequestDto)
 		{
 			var patientDto = await patientService.Create(addPatientRequestDto);
@@ -40,6 +44,7 @@ namespace HealthcareAppointment.WebAPI.Controllers
 
 		[HttpPut]
 		[Route("{id:Guid}")]
+		[Authorize]
 		public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdatePatientRequestDto updatePatientRequestDto)
 		{
 			var patientDto = await patientService.Update(id, updatePatientRequestDto);
@@ -48,6 +53,7 @@ namespace HealthcareAppointment.WebAPI.Controllers
 
 		[HttpDelete]
 		[Route("{id:Guid}")]
+		[Authorize]
 		public async Task<IActionResult> Delete([FromRoute] Guid id)
 		{
 			var isDeleted = await patientService.Delete(id);

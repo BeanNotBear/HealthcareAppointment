@@ -33,6 +33,7 @@ namespace HealthcareAppointment.Business.Services.AuthService
 			{
 				throw new AuthFailException("Email or Password is incorrect!");
 			}
+
 			var authClaims = new List<Claim>
 			{
 				new Claim(ClaimTypes.Name, user.Email),
