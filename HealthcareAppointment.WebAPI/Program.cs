@@ -9,6 +9,7 @@ using HealthcareAppointment.Data.Repositories.AuthRepository;
 using HealthcareAppointment.Data.Repositories.BaseRepository;
 using HealthcareAppointment.Data.Repositories.DoctorRepository;
 using HealthcareAppointment.Data.Repositories.PatientRepository;
+using HealthcareAppointment.WebAPI.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -103,6 +104,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 app.UseAuthentication();
 

@@ -17,8 +17,8 @@ namespace HealthcareAppointment.Business.Services.GenerateToken
 		{
 			var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
 			var token = new JwtSecurityToken(
-				issuer: configuration["Jwt:Issuer"],
-				audience: configuration["Jwt:Audience"],
+				//issuer: configuration["Jwt:Issuer"],
+				//audience: configuration["Jwt:Audience"],
 				expires: DateTime.Now.AddMinutes(30),
 				claims: claims,
 				signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)

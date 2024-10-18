@@ -1,7 +1,9 @@
-﻿using HealthcareAppointment.Business.Services.GenerateToken;
+﻿using HealthcareAppointment.Business.Exceptions;
+using HealthcareAppointment.Business.Services.GenerateToken;
 using HealthcareAppointment.Data.Dtos.Authentication;
 using HealthcareAppointment.Data.Repositories.AuthRepository;
 using HealthcareAppointment.Data.Repositories.DoctorRepository;
+using HealthcareAppointment.Models.Enum;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -27,11 +29,14 @@ namespace HealthcareAppointment.Business.Services.AuthService
 		public async Task<string> Authenticate(LoginRequestDto loginRequestDto)
 		{
 			var user = await authRepository.Authenticate(loginRequestDto.Email, loginRequestDto.Password);
-
+			if (user == null)
+			{
+				throw new AuthFailException("Email or Password is incorrect!");
+			}
 			var authClaims = new List<Claim>
 			{
 				new Claim(ClaimTypes.Name, user.Email),
-				new Claim(JwtRegisteredClaimNames.Jti, user.Id.ToString()),
+				new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
 				new Claim(ClaimTypes.Role, user.Role.ToString()),
 			};
 

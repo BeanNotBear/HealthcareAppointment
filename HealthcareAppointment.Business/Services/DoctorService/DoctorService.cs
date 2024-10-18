@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HealthcareAppointment.Business.Exceptions;
 using HealthcareAppointment.Business.Services.GenerateToken;
 using HealthcareAppointment.Data.Dtos;
 using HealthcareAppointment.Data.Dtos.Authentication;
@@ -44,12 +45,20 @@ namespace HealthcareAppointment.Business.Services.DoctorService
 		public async Task<bool> Delete(Guid id)
 		{
 			var isDeleted = await doctorRepository.Delete(id);
+			if (!isDeleted)
+			{
+				throw new NotFoundException($"Can not found doctor with id: {id}");
+			}
 			return isDeleted;
 		}
 
 		public async Task<DoctorDto> GetById(Guid id)
 		{
 			var doctorDomain = await doctorRepository.GetById(id);
+			if (doctorDomain == null)
+			{
+				throw new NotFoundException($"Can not found doctor with id: {id}");
+			}
 			var doctorDto = mapper.Map<DoctorDto>(doctorDomain);
 			return doctorDto;
 		}
@@ -82,6 +91,10 @@ namespace HealthcareAppointment.Business.Services.DoctorService
 		public async Task<DoctorDto> Update(Guid id, UpdateDoctorRequestDto updateDoctorRequestDto)
 		{
 			var doctorDomain = mapper.Map<User>(updateDoctorRequestDto);
+			if(doctorDomain == null)
+			{
+				throw new NotFoundException($"Can not found doctor with id: {id}");
+			}
 			doctorDomain.Id = id;
 			var updatedDoctor = await doctorRepository.Update(id, doctorDomain);
 			var doctorDto = mapper.Map<DoctorDto>(updatedDoctor);
